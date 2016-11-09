@@ -57,8 +57,3 @@ Map<String,Object> vars = new HashMap<>();
 vars.put("myvar", "var value");
 sender.sendTemplate("welcome", "useremail@example.com", "User Name", vars);
 ```
-
-
-         
-
-```
