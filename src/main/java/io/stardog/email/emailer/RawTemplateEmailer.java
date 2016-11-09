@@ -3,6 +3,7 @@ package io.stardog.email.emailer;
 import com.github.mustachejava.Mustache;
 import io.stardog.email.data.EmailTemplate;
 import io.stardog.email.interfaces.EmailRawSender;
+import io.stardog.email.interfaces.EmailTemplateSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,9 +11,14 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RawTemplateEmailer extends TemplateEmailer implements EmailRawSender {
+public abstract class RawTemplateEmailer implements EmailRawSender, EmailTemplateSender {
     private final Map<String,EmailTemplate> templates = new HashMap<>();
     private final static Logger LOGGER = LoggerFactory.getLogger(RawTemplateEmailer.class);
+    protected final Map<String,Object> globalVars = new HashMap<>();
+
+    public void putGlobalVar(String key, Object val) {
+        globalVars.put(key, val);
+    }
 
     public void addTemplate(EmailTemplate template) {
         templates.put(template.getTemplateName(), template);

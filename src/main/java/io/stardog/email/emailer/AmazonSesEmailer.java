@@ -11,12 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-public class SesEmailer extends RawTemplateEmailer {
+public class AmazonSesEmailer extends RawTemplateEmailer {
     private final AmazonSimpleEmailServiceClient client;
-    private final static Logger LOGGER = LoggerFactory.getLogger(SesEmailer.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AmazonSesEmailer.class);
 
     @Inject
-    public SesEmailer(AmazonSimpleEmailServiceClient client) {
+    public AmazonSesEmailer(AmazonSimpleEmailServiceClient client) {
         super();
         this.client = client;
     }
