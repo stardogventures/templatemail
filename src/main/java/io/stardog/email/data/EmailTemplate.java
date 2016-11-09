@@ -8,9 +8,6 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import com.google.auto.value.AutoValue;
 
-import javax.annotation.Nullable;
-import java.time.Instant;
-
 /*
 An object that holds prepared Mustache templates for each of the fields in the email template.
 */
