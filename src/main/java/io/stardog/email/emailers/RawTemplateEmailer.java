@@ -1,4 +1,4 @@
-package io.stardog.email.emailer;
+package io.stardog.email.emailers;
 
 import com.github.mustachejava.Mustache;
 import io.stardog.email.data.EmailTemplate;

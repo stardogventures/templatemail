@@ -1,4 +1,4 @@
-package io.stardog.email.emailer;
+package io.stardog.email.emailers;
 
 import io.stardog.email.interfaces.TemplateEmailer;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -6,7 +6,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.util.Map;
 
 /**
- * A version of an emailer that does nothing. Useful for tests or local use.
+ * A version of an emailers that does nothing. Useful for tests or local use.
  */
 public class NonEmailer implements TemplateEmailer {
     @Override

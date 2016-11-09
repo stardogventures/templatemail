@@ -1,4 +1,4 @@
-package io.stardog.email.emailer;
+package io.stardog.email.emailers;
 
 import com.sailthru.client.SailthruClient;
 import com.sailthru.client.params.Send;

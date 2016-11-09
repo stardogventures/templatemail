@@ -1,4 +1,4 @@
-package io.stardog.email.emailer;
+package io.stardog.email.emailers;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
 import com.amazonaws.services.simpleemail.model.Body;
