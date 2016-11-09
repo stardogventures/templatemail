@@ -2,7 +2,7 @@ package io.stardog.email.emailer;
 
 import com.sailthru.client.SailthruClient;
 import com.sailthru.client.params.Send;
-import io.stardog.email.interfaces.EmailTemplateSender;
+import io.stardog.email.interfaces.TemplateEmailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,7 @@ import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SailthruEmailer implements EmailTemplateSender {
+public class SailthruEmailer implements TemplateEmailer {
     private final SailthruClient client;
     private final static Logger LOGGER = LoggerFactory.getLogger(SailthruEmailer.class);
     protected final Map<String,Object> globalVars = new HashMap<>();
