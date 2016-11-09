@@ -38,13 +38,13 @@ Will publish this on Maven Central soon, but for the moment you need to add my p
 
 ```java
 AmazonSimpleEmailServiceClient sesClient = new AmazonSimpleEmailServiceClient();
-EmailTemplateSender sender = new AmazonSesEmailer(sesClient);
+TemplateEmailer emailer = new AmazonSesEmailer(sesClient);
 
 // add any number of global variables. These vars will be passed to every template automatically
-sender.putGlobalVar("MY_GLOBAL_VAR", "MY_GLOBAL_VALUE");
+emailer.putGlobalVar("MY_GLOBAL_VAR", "MY_GLOBAL_VALUE");
 
 // add any number of templates
-sender.addTemplate(EmailTemplate.builder()
+emailer.addTemplate(EmailTemplate.builder()
         .templateName("welcome")
         .fromEmail("info@example.com")
         .fromName("Example Name")
@@ -55,5 +55,5 @@ sender.addTemplate(EmailTemplate.builder()
 // send a template
 Map<String,Object> vars = new HashMap<>();
 vars.put("myvar", "var value");
-sender.sendTemplate("welcome", "useremail@example.com", "User Name", vars);
+emailer.sendTemplate("welcome", "useremail@example.com", "User Name", vars);
 ```
