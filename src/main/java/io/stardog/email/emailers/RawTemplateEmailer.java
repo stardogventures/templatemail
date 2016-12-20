@@ -16,7 +16,7 @@ public abstract class RawTemplateEmailer implements RawEmailer, TemplateEmailer 
     private final static Logger LOGGER = LoggerFactory.getLogger(RawTemplateEmailer.class);
     protected final Map<String,Object> globalVars = new HashMap<>();
 
-    public void putGlobalVar(String key, Object val) {
+    public void addGlobalVar(String key, Object val) {
         globalVars.put(key, val);
     }
 

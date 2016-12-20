@@ -9,6 +9,6 @@ import java.util.Map;
  */
 public interface TemplateEmailer {
     public String sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars);
-    public void putGlobalVar(String key, Object val);
+    public void addGlobalVar(String key, Object val);
     public void addTemplate(EmailTemplate template);
 }

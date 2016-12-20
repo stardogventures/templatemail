@@ -24,7 +24,7 @@ public class SailthruEmailer implements TemplateEmailer {
         this.client = client;
     }
 
-    public void putGlobalVar(String key, Object val) {
+    public void addGlobalVar(String key, Object val) {
         globalVars.put(key, val);
     }
 

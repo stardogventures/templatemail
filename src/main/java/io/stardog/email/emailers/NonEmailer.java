@@ -16,7 +16,7 @@ public class NonEmailer implements TemplateEmailer {
     }
 
     @Override
-    public void putGlobalVar(String key, Object val) {
+    public void addGlobalVar(String key, Object val) {
         // does nothing
     }
 
