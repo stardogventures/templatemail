@@ -1,5 +1,6 @@
 package io.stardog.email.emailers;
 
+import io.stardog.email.data.EmailTemplate;
 import io.stardog.email.interfaces.TemplateEmailer;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -14,6 +15,13 @@ public class NonEmailer implements TemplateEmailer {
         return RandomStringUtils.randomAlphanumeric(32);
     }
 
+    @Override
     public void putGlobalVar(String key, Object val) {
+        // does nothing
+    }
+
+    @Override
+    public void addTemplate(EmailTemplate template) {
+        // does nothing
     }
 }
