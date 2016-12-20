@@ -26,8 +26,6 @@ public abstract class RawTemplateEmailer implements RawEmailer, TemplateEmailer 
 
     @Override
     public String sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
-        LOGGER.info("Called send with " + toEmail + " / " + templateName + " / " + vars);
-
         EmailTemplate et = templates.get(templateName);
         if (et == null) {
             LOGGER.error("Template not found: " + templateName);
