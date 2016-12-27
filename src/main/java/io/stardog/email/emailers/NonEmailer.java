@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class NonEmailer extends RawTemplateEmailer {
     private final boolean logFullMessages;
-    private final static Logger LOGGER = LoggerFactory.getLogger(AmazonSesEmailer.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(NonEmailer.class);
 
     public NonEmailer() {
         this(false);
