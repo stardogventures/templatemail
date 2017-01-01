@@ -1,21 +1,22 @@
 package io.stardog.email.data;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.StringReader;
+import java.util.Scanner;
 
 /*
 An object that holds prepared Mustache templates for each of the fields in the email template.
 */
 @AutoValue
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder=AutoValue_EmailTemplate.Builder.class)
 public abstract class EmailTemplate {
     public abstract String getTemplateName();
@@ -51,14 +52,17 @@ public abstract class EmailTemplate {
         public Builder subject(String subject) {
             return subject(MF.compile(new StringReader(subject), subject));
         }
+        public Builder subject(File file) throws FileNotFoundException { return subject(new Scanner(file).useDelimiter("\\Z").next()); }
 
         public Builder contentHtml(String contentHtml) {
             return contentHtml(MF.compile(new StringReader(contentHtml), contentHtml));
         }
+        public Builder contentHtml(File file) throws FileNotFoundException { return contentHtml(new Scanner(file).useDelimiter("\\Z").next()); }
 
         public Builder contentText(String contentText) {
             return contentText(MF.compile(new StringReader(contentText), contentText));
         }
+        public Builder contentText(File file) throws FileNotFoundException { return contentText(new Scanner(file).useDelimiter("\\Z").next()); }
 
         public abstract EmailTemplate build();
     }

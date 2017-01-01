@@ -2,6 +2,7 @@ package io.stardog.email.emailers;
 
 import com.sailthru.client.SailthruClient;
 import com.sailthru.client.params.Send;
+import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.EmailTemplate;
 import io.stardog.email.interfaces.TemplateEmailer;
 import org.slf4j.Logger;
@@ -20,7 +21,6 @@ public class SailthruEmailer implements TemplateEmailer {
 
     @Inject
     public SailthruEmailer(SailthruClient client) {
-        super();
         this.client = client;
     }
 
@@ -34,7 +34,7 @@ public class SailthruEmailer implements TemplateEmailer {
     }
 
     @Override
-    public String sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
+    public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
         Send send = new Send();
         send.setTemplate(templateName);
         send.setEmail(toEmail);
@@ -46,7 +46,7 @@ public class SailthruEmailer implements TemplateEmailer {
         send.setVars(scope);
 
         try {
-            return (String)client.send(send).getResponse().get("send_id");
+            return EmailSendResult.builder().messageId(client.send(send).getResponse().get("send_id").toString()).build();
         } catch (IOException e) {
             LOGGER.error("Failed to send " + templateName + " to " + toEmail, e);
             throw new UncheckedIOException(e);

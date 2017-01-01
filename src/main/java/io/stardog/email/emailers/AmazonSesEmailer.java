@@ -6,6 +6,7 @@ import com.amazonaws.services.simpleemail.model.Content;
 import com.amazonaws.services.simpleemail.model.Destination;
 import com.amazonaws.services.simpleemail.model.Message;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
+import io.stardog.email.data.EmailSendResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class AmazonSesEmailer extends RawTemplateEmailer {
         this.client = client;
     }
 
-    static String toRfcFormat(String toEmail, String toName) {
+    protected static String toRfcFormat(String toEmail, String toName) {
         if (toName == null) {
             return toEmail;
         } else {
@@ -29,7 +30,8 @@ public class AmazonSesEmailer extends RawTemplateEmailer {
         }
     }
 
-    public String sendEmail(String toEmail, String toName, String fromEmail, String fromName,
+    @Override
+    public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName,
                             String subject, String contentHtml, String contentText) {
 
         Destination destination = new Destination()
@@ -54,7 +56,7 @@ public class AmazonSesEmailer extends RawTemplateEmailer {
         try {
             String messageId = client.sendEmail(request).getMessageId();
             LOGGER.info("Sent SES email to " + toEmail + " with id " + messageId);
-            return messageId;
+            return EmailSendResult.builder().messageId(messageId).build();
         } catch (RuntimeException e) {
             LOGGER.error("Unable to send email via SES: ", e);
             throw e;

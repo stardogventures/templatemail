@@ -1,5 +1,6 @@
 package io.stardog.email.emailers;
 
+import io.stardog.email.data.EmailSendResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +31,13 @@ public class NonEmailer extends RawTemplateEmailer {
     }
 
     @Override
-    public String sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
+    public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
         LOGGER.info("Non-sending " + templateName + " to " + toSendName(toEmail, toName));
         return super.sendTemplate(templateName, toEmail, toName, vars);
     }
 
     @Override
-    public String sendEmail(String toEmail, String toName, String fromEmail, String fromName, String subject, String contentHtml, String contentText) {
+    public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName, String subject, String contentHtml, String contentText) {
         if (logFullMessages) {
             StringBuilder sb = new StringBuilder();
             sb.append("To: " + toSendName(toEmail, toName) + "\n");
@@ -50,6 +51,6 @@ public class NonEmailer extends RawTemplateEmailer {
             }
             LOGGER.info(sb.toString());
         }
-        return RandomStringUtils.randomAlphanumeric(24);
+        return EmailSendResult.builder().messageId(RandomStringUtils.randomAlphanumeric(24)).build();
     }
 }

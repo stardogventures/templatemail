@@ -1,6 +1,7 @@
 package io.stardog.email.emailers;
 
 import com.github.mustachejava.Mustache;
+import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.EmailTemplate;
 import io.stardog.email.interfaces.RawEmailer;
 import io.stardog.email.interfaces.TemplateEmailer;
@@ -25,7 +26,7 @@ public abstract class RawTemplateEmailer implements RawEmailer, TemplateEmailer 
     }
 
     @Override
-    public String sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
+    public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
         EmailTemplate et = templates.get(templateName);
         if (et == null) {
             LOGGER.error("Template not found: " + templateName);
