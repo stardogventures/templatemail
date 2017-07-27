@@ -7,5 +7,5 @@ import io.stardog.email.data.EmailSendResult;
  */
 public interface RawEmailer {
     public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName,
-                     String subject, String contentHtml, String contentText);
+                     String subject, String contentHtml, String contentText, String templateName);
 }

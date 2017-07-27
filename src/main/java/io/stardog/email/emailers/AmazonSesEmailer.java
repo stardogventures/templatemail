@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class AmazonSesEmailer extends RawTemplateEmailer {
+@Singleton
+public class AmazonSesEmailer extends AbstractHandlebarsTemplateEmailer {
     private final AmazonSimpleEmailServiceClient client;
     private final static Logger LOGGER = LoggerFactory.getLogger(AmazonSesEmailer.class);
 
@@ -22,20 +24,12 @@ public class AmazonSesEmailer extends RawTemplateEmailer {
         this.client = client;
     }
 
-    protected static String toRfcFormat(String toEmail, String toName) {
-        if (toName == null) {
-            return toEmail;
-        } else {
-            return toName + " <" + toEmail + ">";
-        }
-    }
-
     @Override
     public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName,
-                            String subject, String contentHtml, String contentText) {
+                            String subject, String contentHtml, String contentText, String templateName) {
 
         Destination destination = new Destination()
-                .withToAddresses(new String[]{toRfcFormat(toEmail, toName)});
+                .withToAddresses(new String[]{toAddress(toEmail, toName)});
 
         Content subjectContent = new Content().withData(subject);
 
@@ -49,13 +43,13 @@ public class AmazonSesEmailer extends RawTemplateEmailer {
         Message message = new Message().withSubject(subjectContent).withBody(body);
 
         SendEmailRequest request = new SendEmailRequest()
-                .withSource(toRfcFormat(fromEmail, fromName))
+                .withSource(toAddress(fromEmail, fromName))
                 .withDestination(destination)
                 .withMessage(message);
 
         try {
             String messageId = client.sendEmail(request).getMessageId();
-            LOGGER.info("Sent SES email to " + toEmail + " with id " + messageId);
+            LOGGER.info("Sent SES " + templateName + " email to " + toEmail + " with id " + messageId);
             return EmailSendResult.builder().messageId(messageId).build();
         } catch (RuntimeException e) {
             LOGGER.error("Unable to send email via SES: ", e);
