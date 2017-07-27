@@ -10,7 +10,7 @@ Currently supported services:
 
 (Full disclosure: The library author is the former CTO of Sailthru, so these are the services I personally like and use. But  happy to accept contributions for other email services.)
 
-For Amazon SES, email templates are assumed to be stored locally, using [Mustache](https://mustache.github.io/) templates. Sailthru hosts email templates on the service, so templates do not need to be maintained locally.
+For Amazon SES, email templates are assumed to be stored locally, using [Handlebars](http://handlebarsjs.com/) templates. Sailthru hosts email templates on the service, so templates do not need to be maintained locally.
 
 ## Maven Installation
 
