@@ -20,18 +20,8 @@ Add the following dependency to your POM file:
 <dependency>
     <groupId>io.stardog</groupId>
     <artifactId>templatemail</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
-```
-
-Will publish this on Maven Central soon, but for the moment you need to add my private Maven repo to your `<repositories>` group:
-
-```
-<repository>
-    <id>stardog-maven</id>
-    <name>stardog-maven</name>
-    <url>http://maven.stardog.io</url>
-</repository>
 ```
 
 ## Example Usage
