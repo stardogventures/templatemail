@@ -14,7 +14,7 @@ public class HandlebarsEmailTemplateTest {
     @Test
     public void testBuilder() throws Exception {
         HandlebarsEmailTemplate template = HandlebarsEmailTemplate.builder()
-                .templateName("example-template")
+                .name("example-template")
                 .fromName("Example")
                 .fromEmail("example@example.com")
                 .subject("Hi there {{name}}")
@@ -33,7 +33,7 @@ public class HandlebarsEmailTemplateTest {
         File file = new File(classLoader.getResource("template1.html").getFile());
 
         HandlebarsEmailTemplate template = HandlebarsEmailTemplate.builder()
-                .templateName("example-template")
+                .name("example-template")
                 .fromName(file)
                 .fromEmail(file)
                 .subject(file)

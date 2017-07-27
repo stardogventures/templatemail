@@ -1,11 +1,12 @@
 package io.stardog.email.emailers;
 
+import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.TemplateEmailer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractTemplateEmailer implements TemplateEmailer {
+public abstract class AbstractTemplateEmailer<T> implements TemplateEmailer<T> {
     private final Map<String,Object> globalVars = new HashMap<>();
 
     @Override

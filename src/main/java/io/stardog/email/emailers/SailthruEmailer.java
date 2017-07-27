@@ -5,6 +5,7 @@ import com.sailthru.client.handler.response.JsonResponse;
 import com.sailthru.client.params.Send;
 import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
+import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.TemplateEmailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class SailthruEmailer extends AbstractTemplateEmailer {
+public class SailthruEmailer extends AbstractTemplateEmailer<Void> {
     private final SailthruClient client;
     private final static Logger LOGGER = LoggerFactory.getLogger(SailthruEmailer.class);
 
@@ -47,5 +48,10 @@ public class SailthruEmailer extends AbstractTemplateEmailer {
             LOGGER.error("Failed to send " + templateName + " to " + toEmail, e);
             throw new UncheckedIOException(e);
         }
+    }
+
+    @Override
+    public void addTemplate(EmailTemplate<Void> template) {
+        throw new UnsupportedOperationException("Local templates not supported; use the Sailthru platform to manage templates");
     }
 }

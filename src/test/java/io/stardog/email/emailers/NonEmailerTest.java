@@ -24,7 +24,7 @@ public class NonEmailerTest {
     @Test
     public void sendTemplate() throws Exception {
         emailer.addTemplate(HandlebarsEmailTemplate.builder()
-                .templateName("welcome")
+                .name("welcome")
                 .fromEmail("support@example.com")
                 .fromName("Support Team")
                 .subject("Welcome, {{name}}")

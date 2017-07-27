@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.google.auto.value.AutoValue;
+import io.stardog.email.interfaces.EmailTemplate;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -16,8 +17,8 @@ An object that holds prepared Handlebars templates for each of the fields in the
 */
 @AutoValue
 @JsonDeserialize(builder=AutoValue_HandlebarsEmailTemplate.Builder.class)
-public abstract class HandlebarsEmailTemplate {
-    public abstract String getTemplateName();
+public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template> {
+    public abstract String getName();
 
     public abstract Template getFromName();
 
@@ -40,7 +41,7 @@ public abstract class HandlebarsEmailTemplate {
     public abstract static class Builder {
         private static Handlebars HANDLEBARS = new Handlebars();
 
-        public abstract Builder templateName(String templateName);
+        public abstract Builder name(String templateName);
 
         public abstract Builder fromName(Template fromName);
         public abstract Builder fromEmail(Template fromEmail);

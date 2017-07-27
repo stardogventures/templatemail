@@ -3,6 +3,7 @@ package io.stardog.email.emailers;
 import com.github.jknack.handlebars.Template;
 import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
+import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.RawEmailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,17 +13,18 @@ import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplateEmailer implements RawEmailer {
-    private final Map<String,HandlebarsEmailTemplate> templates = new HashMap<>();
+public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplateEmailer<Template> implements RawEmailer {
+    private final Map<String,EmailTemplate<Template>> templates = new HashMap<>();
     private final static Logger LOGGER = LoggerFactory.getLogger(AbstractHandlebarsTemplateEmailer.class);
 
-    public void addTemplate(HandlebarsEmailTemplate template) {
-        templates.put(template.getTemplateName(), template);
+    @Override
+    public void addTemplate(EmailTemplate<Template> template) {
+        templates.put(template.getName(), template);
     }
 
     @Override
     public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
-        HandlebarsEmailTemplate et = templates.get(templateName);
+        EmailTemplate<Template> et = templates.get(templateName);
         if (et == null) {
             LOGGER.error("Template not found: " + templateName);
             throw new IllegalArgumentException("Template not found: " + templateName);

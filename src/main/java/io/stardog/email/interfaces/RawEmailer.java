@@ -6,6 +6,6 @@ import io.stardog.email.data.EmailSendResult;
  * An RawEmailer is capable of sending raw emails.
  */
 public interface RawEmailer {
-    public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName,
+    EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName,
                      String subject, String contentHtml, String contentText, String templateName);
 }
