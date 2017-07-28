@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class SailthruEmailer extends AbstractTemplateEmailer<Void> {
+public class SailthruEmailer extends AbstractTemplateEmailer {
     private final SailthruClient client;
     private final static Logger LOGGER = LoggerFactory.getLogger(SailthruEmailer.class);
 
@@ -48,10 +48,5 @@ public class SailthruEmailer extends AbstractTemplateEmailer<Void> {
             LOGGER.error("Failed to send " + templateName + " to " + toEmail, e);
             throw new UncheckedIOException(e);
         }
-    }
-
-    @Override
-    public void addTemplate(EmailTemplate<Void> template) {
-        throw new UnsupportedOperationException("Local templates not supported; use the Sailthru platform to manage templates");
     }
 }

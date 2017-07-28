@@ -13,11 +13,10 @@ import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplateEmailer<Template> implements RawEmailer {
+public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplateEmailer implements RawEmailer {
     private final Map<String,EmailTemplate<Template>> templates = new HashMap<>();
     private final static Logger LOGGER = LoggerFactory.getLogger(AbstractHandlebarsTemplateEmailer.class);
 
-    @Override
     public void addTemplate(EmailTemplate<Template> template) {
         templates.put(template.getName(), template);
     }

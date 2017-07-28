@@ -6,7 +6,7 @@ import io.stardog.email.interfaces.TemplateEmailer;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractTemplateEmailer<T> implements TemplateEmailer<T> {
+public abstract class AbstractTemplateEmailer implements TemplateEmailer {
     private final Map<String,Object> globalVars = new HashMap<>();
 
     @Override

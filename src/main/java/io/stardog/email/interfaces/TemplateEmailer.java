@@ -8,8 +8,7 @@ import java.util.Map;
 /**
  * An TemplateEmailer is capable of sending emails by the name of that template.
  */
-public interface TemplateEmailer<T> {
+public interface TemplateEmailer {
     EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars);
     void addGlobalVar(String key, Object val);
-    void addTemplate(EmailTemplate<T> template);
 }
