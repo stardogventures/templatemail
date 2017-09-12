@@ -39,7 +39,7 @@ public class NonEmailer extends AbstractHandlebarsTemplateEmailer {
             }
             LOGGER.info(sb.toString());
         }
-        String messageId = RandomStringUtils.randomAlphanumeric(24);
+        String messageId = "unsent-" + RandomStringUtils.randomAlphanumeric(24);
         LOGGER.info("Did not send " + templateName + " email to " + toAddress(toEmail, toName));
         return EmailSendResult.builder().messageId(messageId).build();
     }

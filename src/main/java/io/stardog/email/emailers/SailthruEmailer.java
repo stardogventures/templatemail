@@ -7,6 +7,7 @@ import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
 import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.TemplateEmailer;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,11 @@ public class SailthruEmailer extends AbstractTemplateEmailer {
 
     @Override
     public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
+        if (!isWhitelisted(toEmail)) {
+            LOGGER.info("Skipping send of " + templateName + " to " + toEmail + " (not whitelisted)");
+            return EmailSendResult.builder().messageId("unsent-" + RandomStringUtils.randomAlphanumeric(24)).build();
+        }
+
         Send send = new Send();
         send.setTemplate(templateName);
         send.setEmail(toEmail);

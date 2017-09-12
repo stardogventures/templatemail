@@ -5,6 +5,7 @@ import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
 import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.RawEmailer;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,11 @@ public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplate
         if (et == null) {
             LOGGER.error("Template not found: " + templateName);
             throw new IllegalArgumentException("Template not found: " + templateName);
+        }
+
+        if (!isWhitelisted(toEmail)) {
+            LOGGER.info("Skipping send of " + templateName + " to " + toEmail + " (not whitelisted)");
+            return EmailSendResult.builder().messageId("unsent-" + RandomStringUtils.randomAlphanumeric(24)).build();
         }
 
         Map<String,Object> scope = new HashMap<>();
