@@ -33,6 +33,7 @@ public class NonEmailerTest {
         emailer.addGlobalVar("globalVar", "GLOBAL");
 
         EmailSendResult result = emailer.sendTemplate("welcome", "bob@example.com", "Bob Smith", ImmutableMap.of("var", "foo"));
-        assertEquals(24, result.getMessageId().length());
+        assertEquals(31, result.getMessageId().length());
+        assertTrue(result.getMessageId().startsWith("unsent-"));
     }
 }
