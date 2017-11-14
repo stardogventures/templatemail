@@ -20,7 +20,7 @@ Add the following dependency to your POM file:
 <dependency>
     <groupId>io.stardog</groupId>
     <artifactId>templatemail</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.1</version>
 </dependency>
 ```
 
