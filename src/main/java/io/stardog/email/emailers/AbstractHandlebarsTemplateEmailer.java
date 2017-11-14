@@ -9,8 +9,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +70,11 @@ public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplate
         if (toName == null) {
             return toEmail;
         } else {
-            return toName + " <" + toEmail + ">";
+            try {
+                return new InternetAddress(toEmail, toName).toString();
+            } catch (UnsupportedEncodingException e) {
+                throw new UncheckedIOException(e);
+            }
         }
     }
 }

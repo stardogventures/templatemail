@@ -28,6 +28,8 @@ public class AbstractHandlebarsTemplateEmailerTest {
                 AbstractHandlebarsTemplateEmailer.toAddress("bob@example.com", "Bob Smith"));
         assertEquals("bob@example.com",
                 AbstractHandlebarsTemplateEmailer.toAddress("bob@example.com", null));
+        assertEquals("\"Bob Smith, Esq\" <bob@example.com>",
+                AbstractHandlebarsTemplateEmailer.toAddress("bob@example.com", "Bob Smith, Esq"));
     }
 
 }
