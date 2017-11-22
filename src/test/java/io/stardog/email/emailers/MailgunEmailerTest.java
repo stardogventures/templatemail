@@ -24,6 +24,7 @@ public class MailgunEmailerTest {
     public void sendMail() throws Exception {
         Mail mail = mock(Mail.class);
         Response response = mock(net.sargue.mailgun.Response.class);
+        when(response.responseCode()).thenReturn(200);
         when(response.responseMessage()).thenReturn("{\"id\":\"123456\"}");
         when(mail.send()).thenReturn(response);
 

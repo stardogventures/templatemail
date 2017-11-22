@@ -68,14 +68,19 @@ public class MailgunEmailer extends AbstractHandlebarsTemplateEmailer {
             throw e;
         }
 
+        if (response.responseCode() < 200 || response.responseCode() >= 300) {
+            LOGGER.error("Received non-200 response from Mailgun: " + response.responseCode() + " " + response.responseMessage());
+            throw new MailgunException(response.responseCode() + " " + response.responseMessage());
+        }
+
         Map<String,Object> responseMap;
         try {
             responseMap = MAPPER.readValue(response.responseMessage(),
                     new TypeReference<HashMap<String, Object>>() {
                     });
         } catch (IOException e) {
-            LOGGER.error("Unable to deserialize response from Mailgun: ", response.responseMessage());
-            throw new UncheckedIOException(e);
+            LOGGER.error("Unable to deserialize response from Mailgun: " + response.responseMessage());
+            throw new MailgunException(e);
         }
 
         if (!responseMap.containsKey("id")) {
