@@ -7,10 +7,11 @@ Applications often need to send transactional emails, such as welcomes, notifica
 Currently supported services:
   * [Amazon SES](https://aws.amazon.com/ses/)
   * [Sailthru](https://getstarted.sailthru.com/)
+  * [Mailgun](https://www.mailgun.com/)
 
-(Full disclosure: The library author is the former CTO of Sailthru, so these are the services I personally like and use. But  happy to accept contributions for other email services.)
+(Full disclosure: The library author is the former CTO of Sailthru, so these are the services I personally like and use. But happy to accept contributions for other email services.)
 
-For Amazon SES, email templates are assumed to be stored locally, using [Handlebars](http://handlebarsjs.com/) templates. Sailthru hosts email templates on the service, so templates do not need to be maintained locally.
+For Amazon SES and Mailgun, email templates are stored locally, using [Handlebars](http://handlebarsjs.com/) templates. Sailthru hosts email templates on the service, so templates do not need to be maintained locally.
 
 ## Maven Installation
 
@@ -20,7 +21,7 @@ Add the following dependency to your POM file:
 <dependency>
     <groupId>io.stardog</groupId>
     <artifactId>templatemail</artifactId>
-    <version>0.5.1</version>
+    <version>0.6.0</version>
 </dependency>
 ```
 
