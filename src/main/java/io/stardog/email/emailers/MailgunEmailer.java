@@ -2,6 +2,7 @@ package io.stardog.email.emailers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.stardog.email.data.EmailSendRequest;
 import io.stardog.email.data.EmailSendResult;
 import net.sargue.mailgun.*;
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,36 +26,33 @@ public class MailgunEmailer extends AbstractHandlebarsTemplateEmailer {
     }
 
     @Override
-    public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName, String subject,
-                                     String contentHtml, String contentText, String templateName) {
-        Mail mail = buildMail(toEmail, toName, fromEmail, fromName, subject, contentHtml, contentText);
-        return sendMail(mail, toEmail, templateName);
+    public EmailSendResult sendEmail(EmailSendRequest request) {
+        Mail mail = buildMail(request);
+        return sendMail(mail, request.getToEmail(), request.getTemplateName().orElse("no-template"));
     }
 
-    protected Mail buildMail(String toEmail, String toName, String fromEmail, String fromName, String subject,
-                             String contentHtml, String contentText) {
+    protected Mail buildMail(EmailSendRequest request) {
         MailBuilder builder = Mail.using(config);
 
-        if (fromName != null) {
-            builder.from(fromName, fromEmail);
+        if (request.getFromName().isPresent()) {
+            builder.from(request.getFromName().get(), request.getFromEmail());
         } else {
-            builder.from(fromEmail);
+            builder.from(request.getFromEmail());
         }
 
-        if (toName != null) {
-            builder.to(toName, toEmail);
+        if (request.getToName().isPresent()) {
+            builder.to(request.getToName().get(), request.getToEmail());
         } else {
-            builder.to(toEmail);
+            builder.to(request.getToEmail());
         }
 
-        builder.subject(subject);
+        builder.subject(request.getSubject());
 
-        if (contentHtml != null) {
-            builder.html(contentHtml);
-        }
-        if (contentText != null) {
-            builder.text(contentText);
-        }
+        request.getContentHtml().ifPresent(builder::html);
+        request.getContentHtml().ifPresent(builder::text);
+
+        request.getReplyToEmail().ifPresent(builder::replyTo);
+
         return builder.build();
     }
 

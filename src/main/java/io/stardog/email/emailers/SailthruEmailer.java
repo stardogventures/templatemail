@@ -3,8 +3,10 @@ package io.stardog.email.emailers;
 import com.sailthru.client.SailthruClient;
 import com.sailthru.client.handler.response.JsonResponse;
 import com.sailthru.client.params.Send;
+import io.stardog.email.data.EmailSendRequest;
 import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
+import io.stardog.email.data.TemplateSendRequest;
 import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.TemplateEmailer;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -30,7 +32,11 @@ public class SailthruEmailer extends AbstractTemplateEmailer {
 
 
     @Override
-    public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
+    public EmailSendResult sendTemplate(TemplateSendRequest request) {
+        String templateName = request.getTemplateName();
+        String toEmail = request.getToEmail();
+        String toName = request.getToName().orElse(null);
+        Map<String,Object> vars = request.getVars();
         if (!isWhitelisted(toEmail)) {
             LOGGER.info("Skipping send of " + templateName + " to " + toEmail + " (not whitelisted)");
             return EmailSendResult.builder().messageId("unsent-" + RandomStringUtils.randomAlphanumeric(24)).build();
@@ -43,7 +49,9 @@ public class SailthruEmailer extends AbstractTemplateEmailer {
         Map<String,Object> scope = new HashMap<>();
         scope.putAll(getGlobalVars());
         scope.putAll(vars);
-        scope.put("name", toName);
+        if (toName != null) {
+            scope.put("name", toName);
+        }
         send.setVars(scope);
 
         try {

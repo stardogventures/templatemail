@@ -5,6 +5,7 @@ import com.amazonaws.services.simpleemail.model.SendEmailResult;
 import com.google.common.collect.ImmutableMap;
 import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
+import io.stardog.email.data.TemplateSendRequest;
 import org.junit.Before;
 import org.junit.Test;
 

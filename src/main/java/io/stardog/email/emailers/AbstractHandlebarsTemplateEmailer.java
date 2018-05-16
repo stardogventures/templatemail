@@ -1,8 +1,10 @@
 package io.stardog.email.emailers;
 
 import com.github.jknack.handlebars.Template;
+import io.stardog.email.data.EmailSendRequest;
 import io.stardog.email.data.EmailSendResult;
 import io.stardog.email.data.HandlebarsEmailTemplate;
+import io.stardog.email.data.TemplateSendRequest;
 import io.stardog.email.interfaces.EmailTemplate;
 import io.stardog.email.interfaces.RawEmailer;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -26,7 +28,12 @@ public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplate
     }
 
     @Override
-    public EmailSendResult sendTemplate(String templateName, String toEmail, String toName, Map<String, Object> vars) {
+    public EmailSendResult sendTemplate(TemplateSendRequest request) {
+        String templateName = request.getTemplateName();
+        String toEmail = request.getToEmail();
+        Map<String,Object> vars = request.getVars();
+        String toName = request.getToName().orElse(null);
+
         EmailTemplate<Template> et = templates.get(templateName);
         if (et == null) {
             LOGGER.error("Template not found: " + templateName);
@@ -52,7 +59,22 @@ public abstract class AbstractHandlebarsTemplateEmailer extends AbstractTemplate
         String contentHtml = evaluateHandlebarsTemplate(et.getContentHtml(), scope);
         String contentText = evaluateHandlebarsTemplate(et.getContentText(), scope);
 
-        return sendEmail(toEmail, toName, fromEmail, fromName, subject, contentHtml, contentText, templateName);
+        EmailSendRequest.Builder builder = EmailSendRequest.builder()
+                .templateName(templateName)
+                .toEmail(toEmail)
+                .toName(toName)
+                .fromName(fromName)
+                .fromEmail(fromEmail)
+                .subject(subject);
+        if (contentHtml != null) {
+            builder.contentHtml(contentHtml);
+        }
+        if (contentText != null) {
+            builder.contentText(contentText);
+        }
+        request.getReplyToEmail().ifPresent(builder::replyToEmail);
+
+        return sendEmail(builder.build());
     }
 
     protected String evaluateHandlebarsTemplate(Template template, Map<String,Object> context) {

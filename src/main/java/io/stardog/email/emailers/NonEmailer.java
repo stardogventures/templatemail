@@ -1,5 +1,6 @@
 package io.stardog.email.emailers;
 
+import io.stardog.email.data.EmailSendRequest;
 import io.stardog.email.data.EmailSendResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -25,22 +26,29 @@ public class NonEmailer extends AbstractHandlebarsTemplateEmailer {
     }
 
     @Override
-    public EmailSendResult sendEmail(String toEmail, String toName, String fromEmail, String fromName, String subject, String contentHtml, String contentText, String templateName) {
+    public EmailSendResult sendEmail(EmailSendRequest request) {
+        String toEmail = request.getToEmail();
+        String toName = request.getToName().orElse(toEmail);
+        String fromEmail = request.getFromEmail();
+        String fromName = request.getFromName().orElse(fromEmail);
+        String subject = request.getSubject();
         if (logFullMessages) {
             StringBuilder sb = new StringBuilder();
             sb.append("To: " + toAddress(toEmail, toName) + "\n");
             sb.append("From: " + toAddress(fromEmail, fromName) + "\n");
             sb.append("Subject: " + subject + "\n");
-            if (contentHtml != null) {
-                sb.append("\n" + contentHtml);
+            request.getReplyToEmail().ifPresent(
+                    replyTo -> sb.append("Reply-To: " + replyTo + "\n"));
+            if (request.getContentHtml().isPresent()) {
+                sb.append("\n" + request.getContentHtml().get());
             }
-            if (contentText != null) {
-                sb.append("\n" + contentText);
+            if (request.getContentText().isPresent()) {
+                sb.append("\n" + request.getContentText().get());
             }
             LOGGER.info(sb.toString());
         }
         String messageId = "unsent-" + RandomStringUtils.randomAlphanumeric(24);
-        LOGGER.info("Did not send " + templateName + " email to " + toAddress(toEmail, toName));
+        LOGGER.info("Did not send " + request.getTemplateName().orElse("unknown") + " email to " + toAddress(toEmail, toName));
         return EmailSendResult.builder().messageId(messageId).build();
     }
 }
