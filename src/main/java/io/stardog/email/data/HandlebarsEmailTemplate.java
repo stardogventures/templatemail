@@ -10,6 +10,7 @@ import io.stardog.email.interfaces.EmailTemplate;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Scanner;
 
 /*
@@ -49,30 +50,81 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
         public abstract Builder contentHtml(Template contentHtml);
         public abstract Builder contentText(Template contentText);
 
-        public Builder fromName(String fromName) throws IOException {
-            return fromName(HANDLEBARS.compileInline(fromName));
+        public Builder fromName(String fromName) {
+            try {
+                return fromName(HANDLEBARS.compileInline(fromName));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         }
-        public Builder fromName(File file) throws IOException { return fromName(new Scanner(file).useDelimiter("\\Z").next()); }
 
-        public Builder fromEmail(String fromEmail) throws IOException {
-            return fromEmail(HANDLEBARS.compileInline(fromEmail));
+        public Builder fromName(File file) {
+            try {
+                return fromName(new Scanner(file).useDelimiter("\\Z").next());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         }
-        public Builder fromEmail(File file) throws IOException { return fromEmail(new Scanner(file).useDelimiter("\\Z").next()); }
 
-        public Builder subject(String subject) throws IOException {
-            return subject(HANDLEBARS.compileInline(subject));
+        public Builder fromEmail(String fromEmail) {
+            try {
+                return fromEmail(HANDLEBARS.compileInline(fromEmail));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         }
-        public Builder subject(File file) throws IOException { return subject(new Scanner(file).useDelimiter("\\Z").next()); }
+        public Builder fromEmail(File file) {
+            try {
+                return fromEmail(new Scanner(file).useDelimiter("\\Z").next());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
 
-        public Builder contentHtml(String contentHtml) throws IOException {
-            return contentHtml(HANDLEBARS.compileInline(contentHtml));
+        public Builder subject(String subject) {
+            try {
+                return subject(HANDLEBARS.compileInline(subject));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         }
-        public Builder contentHtml(File file) throws IOException { return contentHtml(new Scanner(file).useDelimiter("\\Z").next()); }
+        public Builder subject(File file) {
+            try {
+                return subject(new Scanner(file).useDelimiter("\\Z").next());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
 
-        public Builder contentText(String contentText) throws IOException {
-            return contentText(HANDLEBARS.compileInline(contentText));
+        public Builder contentHtml(String contentHtml) {
+            try {
+                return contentHtml(HANDLEBARS.compileInline(contentHtml));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         }
-        public Builder contentText(File file) throws IOException { return contentText(new Scanner(file).useDelimiter("\\Z").next()); }
+        public Builder contentHtml(File file) {
+            try {
+                return contentHtml(new Scanner(file).useDelimiter("\\Z").next());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+
+        public Builder contentText(String contentText) {
+            try {
+                return contentText(HANDLEBARS.compileInline(contentText));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+        public Builder contentText(File file) {
+            try {
+                return contentText(new Scanner(file).useDelimiter("\\Z").next());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
 
         public abstract HandlebarsEmailTemplate build();
     }

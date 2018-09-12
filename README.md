@@ -8,6 +8,7 @@ Currently supported services:
   * [Amazon SES](https://aws.amazon.com/ses/)
   * [Sailthru](https://getstarted.sailthru.com/)
   * [Mailgun](https://www.mailgun.com/)
+  * Basic SMTP for testing using [MailCatcher](https://mailcatcher.me)
 
 (Full disclosure: The library author is the former CTO of Sailthru, so these are the services I personally like and use. But happy to accept contributions for other email services.)
 
@@ -21,7 +22,7 @@ Add the following dependency to your POM file:
 <dependency>
     <groupId>io.stardog</groupId>
     <artifactId>templatemail</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.1</version>
 </dependency>
 ```
 
