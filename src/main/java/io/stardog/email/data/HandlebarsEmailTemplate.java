@@ -2,6 +2,7 @@ package io.stardog.email.data;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.jknack.handlebars.EscapingStrategy;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.google.auto.value.AutoValue;
@@ -40,7 +41,9 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
     @AutoValue.Builder
     @JsonPOJOBuilder(withPrefix = "")
     public abstract static class Builder {
-        private static Handlebars HANDLEBARS = new Handlebars();
+        private static Handlebars HANDLEBARS_HTML = new Handlebars();
+        private static Handlebars HANDLEBARS_TEXT = new Handlebars()
+                .with(EscapingStrategy.NOOP);
 
         public abstract Builder name(String templateName);
 
@@ -52,7 +55,7 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
 
         public Builder fromName(String fromName) {
             try {
-                return fromName(HANDLEBARS.compileInline(fromName));
+                return fromName(HANDLEBARS_TEXT.compileInline(fromName));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
@@ -68,7 +71,7 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
 
         public Builder fromEmail(String fromEmail) {
             try {
-                return fromEmail(HANDLEBARS.compileInline(fromEmail));
+                return fromEmail(HANDLEBARS_TEXT.compileInline(fromEmail));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
@@ -83,7 +86,7 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
 
         public Builder subject(String subject) {
             try {
-                return subject(HANDLEBARS.compileInline(subject));
+                return subject(HANDLEBARS_TEXT.compileInline(subject));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
@@ -98,7 +101,7 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
 
         public Builder contentHtml(String contentHtml) {
             try {
-                return contentHtml(HANDLEBARS.compileInline(contentHtml));
+                return contentHtml(HANDLEBARS_HTML.compileInline(contentHtml));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
@@ -113,7 +116,7 @@ public abstract class HandlebarsEmailTemplate implements EmailTemplate<Template>
 
         public Builder contentText(String contentText) {
             try {
-                return contentText(HANDLEBARS.compileInline(contentText));
+                return contentText(HANDLEBARS_TEXT.compileInline(contentText));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
